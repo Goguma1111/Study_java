@@ -1,0 +1,533 @@
+<br>
+
+# <객체지향 프로그래밍의 이해 예제>
+
+<br>
+
+## <클래스와 객체>
+
+	/** 변수들을 그룹화한 클래스 정의 */
+	class Dragoon {
+    	int speed;
+    	int hp;
+    	int attack;
+    	int defense;
+	}
+
+	public class Ex01_DragoonSimulator {
+    	public static void main(String[] args) {
+        	/** 1) 클래스로 부터 객체 생성하기 */
+        	// 객체 생성하기
+        	Dragoon dg1 = new Dragoon();
+
+
+        	// 객체의 속성 설정하기
+        	dg1.speed = 10;
+        	dg1.hp = 100;
+        	dg1.attack = 20;
+        	dg1.defense = 5;
+
+
+        	// 객체의 속성 일괄 출력하기
+        	String tpl = "speed: %d, hp: %d, attack: %d, defense: %d\n";
+        	System.out.printf(tpl, dg1.speed, dg1.hp, dg1.attack, dg1.defense);
+        	/** 2) 객체 안에 포함된 값 변경하기 */
+        	// 레벨업을 할 경우 모든 능력치가 증가한다
+        	dg1.speed += 1;
+        	dg1.hp += 10;
+        	dg1.attack += 2;
+        	dg1.defense += 1;
+    
+
+        	// 공격을 받을 경우 hp 감소한다
+        	dg1.hp -= 10;
+        	System.out.printf(tpl, dg1.speed, dg1.hp, dg1.attack, dg1.defense);
+        
+        	/** 3) 클래스의 재사용 */
+        	// 동일한 속성을 갖는 객체를 추가로 생성할 수 있다.
+        	// 각 속성은 독립적인 값을 갖는다.
+
+        	Dragoon dg2 = new Dragoon();
+
+        	dg2.speed = 12;
+        	dg2.hp = 120;
+        	dg2.attack = 22;
+        	dg2.defense = 7;
+
+        	System.out.printf(tpl, dg1.speed, dg1.hp, dg1.attack, dg1.defense);
+        	System.out.printf(tpl, dg2.speed, dg2.hp, dg2.attack, dg2.defense);
+    	}
+	}
+
+
+
+<br>
+
+	class prode{
+    	/** 이동 메서드 -> 이동할 좌표를 전달받아 이동 */
+    	void move (int x , int y){
+        	System.out.printf("좌표(%d, %d)로 이동합니다.\n",x,y);
+    	}
+
+    /** 광물을 채집하는 메서드 -> 채집된 광물을 반환 */
+    int mineral() {
+        System.out.println("광물을 채집합니다.(+10)");
+        return 10;
+    }
+
+
+    /** 가스를 채집하는 메서드 -> 채집된 가스를 반환 */
+    int gas() {
+
+        System.out.println("가스를 채집합니다.(+5)");
+        return 5;
+
+    }
+
+
+}
+
+
+	// 객체를 통한 메서드 호출
+	public class Ex02_ProdeSimulator {
+    	public static void main(String[] args) {
+        	prode prode1 = new prode();
+        	prode1.move(10, 10);
+
+        	int my_mineral = 0;
+        	my_mineral += prode1.mineral();
+        	my_mineral += prode1.mineral();
+        	my_mineral += prode1.mineral();
+
+        	int my_gas = 0;
+        	my_gas += prode1.gas();
+        	my_gas += prode1.gas();
+
+        	System.out.printf("채집된 광물 : %d, 채집된 가스: %d\n", my_mineral, my_gas);
+	    }
+	}
+
+
+
+	class Zealot {
+
+    	int hp; // 체력
+    	int dps; // 공격력
+
+
+    	// 상태확인 메서드
+    	void state() {
+        	System.out.printf("상태확인 >>> hp : %d, dps: %d\n", hp, dps);
+    	}
+
+
+    	// 레벨업 - 모든 속성이 증가
+    	void levelUp() {
+        	hp += 10;
+        	dps += 2;
+	        System.out.println("레벨업을 하여 체력(+10), 공격력(+2)이 증가합니다.");
+    	}
+        
+
+
+    	// 공격을 받음 - 상대 공격력만큼 체력이 감소
+    	void attacked(int enemyAttack) {
+        	hp -= enemyAttack;
+        	System.out.printf("%d의 공격을 받아 hp가 %d만큼 감소합니다.\n", enemyAttack, hp);
+    		}
+		}
+
+<br>
+
+	// 메서드 실행에 따른 멤버변수의 변화확인
+	public class Ex03_ZealotSimular {
+    	public static void main(String[] args) {
+        	Zealot zealot1 = new Zealot();
+        	zealot1.hp = 100;
+        	zealot1.dps = 20;
+
+
+        	zealot1.state();
+        	zealot1.attacked(30);
+        	zealot1.state();
+        	zealot1.levelUp();
+        	zealot1.state();
+    	}
+	}
+
+## <생성자와 정보은닉>
+<br>
+	
+    class Marine{
+    	String name; // 이름
+    	int hp; // 체력
+
+    	// 생성자 : 객체 속성을 초기화
+   		Marine(String name,int hp){
+        	this.name = name;
+        	this.hp = hp;
+        	System.out.printf("[%s] you wanna piece of me boy? \n", this.name);
+    	}
+
+    	// 상태확인 메서드
+
+    	void state() {
+        	System.out.printf("[%s] hp: %d\n", name, hp);
+    	} 
+
+
+
+    	// 레벨업 - 체력증가
+
+    	void levelUp() {
+        	hp += 5;
+        	System.out.printf("[%s] 레벨업을 하여 체력(+5)가 증가합니다.\n", name);
+
+    	}
+
+
+    	void attacked(int enemyAttack){
+        	hp -= enemyAttack;
+        	System.out.printf("[%s] 적의 공격을 받아 hp가 감소됩니다.\n", name, enemyAttack);
+   	 }
+	}
+
+
+
+	// 정의한 클래스 객체 사용하기
+	public class Ex04_MarineSimulator {
+    	public static void main(String[] args) {
+        	// 객체 생성과 동시에 생성자 호출
+        	Marine m1 = new Marine("마린1", 100);
+        	Marine m2 = new Marine("마린2", 100);
+
+
+        	// 객체 속성 출력
+        	m1.state();
+        	m2.state();
+        
+        	//공격을 받아 체력이 감소
+        	m1.attacked(30);
+        	m2.attacked(20);
+
+        	// 객체의 속성 출력
+        	m1.state();
+        	m2.state();
+
+        	// 레벨업으로 체력 증가
+        	m1.levelUp();
+        	m2.levelUp();
+
+
+        	// 객체의 속성 출력
+        	m1.state();
+        	m2.state();
+    	}
+	}
+
+
+	// 다른 파일로 분리된 public 클래스에 대한 객체 생성
+	public class Ex05_VultureSimulator {
+    	public static void main(String[] args) {
+        	Vulture v1 = new Vulture("벌처1", 100);
+        	Vulture v2 = new Vulture("벌처2", 100);
+
+        	v1.state();
+        	v2.state();
+
+        	v1.attacked(30);
+        	v2.attacked(20);
+
+        	v1.state();
+        	v2.state();
+
+        	v1.levelUp();
+        	v2.levelUp();
+
+        	v1.state();
+        	v2.state();
+    	}
+	}
+
+
+	// 멤버변수와 geeter, setter 정의
+
+	public class Vulture {
+    	private String name;
+    	private int hp;
+
+    	// getter and setter for name
+    	String getName() {
+        	return this.name;
+    	}
+
+    	void setName(String name) {
+        	this.name = name;
+    	}
+
+
+    	// getter ans setter for hp
+    	int gethp() {
+        	return this.hp;
+    	}
+
+    	void setHp(int hp) {
+        	if (hp < 1) {
+            	hp = 1; // 체력이 1보다 작아지지 않도록 제한
+        	}
+        
+        	this.hp = hp;
+    	}
+
+	// 생성자와 기능 구현
+
+    	// 생성자
+    	public Vulture (String name, int hp) {
+        	this.setName(name);
+        	this.setHp(hp);
+        	System.out.printf("[%s] Alright! Bring it on!\n", this.name);
+    	}
+
+    	// 객체의 상태 출력
+    	void state() {
+        	System.out.printf("[%s] hp: %d\n", this.getName(),this.gethp());
+    	}
+
+    	// 레벨업 - 체력증가
+    	void levelUp() {
+        	this.setHp(hp);
+        	System.out.printf("[%s]레벨업을 하여 체력(+5)가 증가합니다.\n",this.getName());
+
+    }
+
+    // 공격을 받음 체력이 감소
+    	void attacked(int enemyAttack){
+        	this.setHp(this.gethp()- enemyAttack);
+        	System.out.printf("[%s] 적의 공격을 받아 hp가 %d 감소합니다.", this.getName(),enemyAttack);
+
+    	}
+	}
+   
+   <br>
+   
+    
+
+## <클래스 상속>
+
+	public class Ex01_CalcTest {
+    	public static void main(String[] args) {
+        	// 부모클래스에 대한 객체는 자신에게 정의된 기능만을 사용할 수 있다.
+        	CalcParent parent = new CalcParent();
+        	System.out.println(parent.plus(100,50));
+        	System.out.println(parent.minus(100, 50));
+	
+	        System.out.println("--------");
+
+
+	        // 자식 클래스에 대한 객체는 부모에게 물려받은 기능과
+    	    // 자신이 새롭게 정의한 기능을 모두 사용할 수 있다.
+        	CalcChild child = new CalcChild();
+        	System.out.println(child.plus(200, 100));
+        	System.out.println(child.minus(200, 100));
+        	System.out.println(child.times(200, 100));
+        	System.out.println(child.divide(200, 100));
+
+    	}
+	}
+
+	public class CalcParent {
+    	public int plus (int x , int y){
+        	return x + y;
+    	}
+
+    	public int minus(int x, int y) {
+        	return x - y;
+    	}
+	}
+    
+    
+	public class CalcChild extends CalcParent {
+    	public int times (int x, int y){
+        	return x * y;
+    
+   	 }
+
+    	public int divide(int x, int y) {
+        	int result = 0;
+        	if ( y != 0) {
+            	result = x / y;
+        	}
+
+        	return result;
+    	}	
+	}
+
+
+	public class Board {
+    	private int num;
+    	private String subject;
+    	private String content;
+    	private String writer;
+		
+	public Board(int num, String subject, String content, String writer) {
+        	this.num = num;
+        	this.subject = subject;
+        	this.content = content;
+        	this.writer = writer;
+    	}
+
+
+	public int getNum() {
+    	return this.num;
+	}
+
+	public void setNum(int num) {
+    	this.num = num;
+	}
+
+	public String getSubject() {
+    	return this.subject;
+	}
+
+	public void setSubject(String subject) {
+    	this.subject = subject;
+	}
+
+	public String getContent() {
+    	return this.content;
+	}
+
+	public void setContent(String content) {
+    	this.content = content;
+	}
+
+	public String getWriter() {
+    	return this.writer;
+	}
+
+	public void setWriter(String writer) {
+    	this.writer = writer;
+		}
+	}
+
+
+	public class Ex02_BoardTest {
+    	public static void main(String[] args) {
+        	NoticeBoard nb = new NoticeBoard();
+        	nb.setNum(1);
+        	nb.setSubject("공지사항입니다.");
+        	nb.setContent("공지사항의 내용입니다.");
+        	nb.setWriter("관리자");
+        	nb.setFile("첨부파일.zip");
+	        
+	        QNABoard qna = new QNABoard();
+	        qna.setNum(2);
+	        qna.setSubject("질문답변 입니다.");
+	        qna.setContent("질문답변의 내용입니다.");
+	        qna.setWriter("회원1");
+	        qna.setVote(123);
+	
+	        FreeBoard free = new FreeBoard();
+	        free.setNum(3);
+        	free.setSubject("자유게시판입니다.");
+        	free.setWriter("회원2");
+        	free.setScrapCount(456);
+    	}
+	}
+    
+    public class FreeBoard extends Board {
+    	private int scrapCount;
+
+    	public int getScrapCount() {
+        	return this.scrapCount;
+    	}
+
+    	public void setScrapCount(int scrapCount) {
+        	this.scrapCount = scrapCount;
+    	}
+	}
+
+
+	public class NoticeBoard extends Board{
+    	private String file;
+
+    	public String getFile() {
+        	return this.file;
+    	}
+
+    	public void setFile(String file) {
+        	this.file = file;
+    	}
+
+	}
+    
+    
+    
+    
+	public class QNABoard extends Board {
+    	private int vote;
+
+    	public int getVote() {
+        	return this.vote;
+    	}
+
+    	public void setVote(int vote) {
+        	this.vote = vote;
+    	}
+
+	}
+
+
+	public class Point {
+    
+        	private int x;
+        	private int y;
+
+        	public int getX() {return this.x;}
+        	public void setX(int x) {this.x = x;}
+        	public int getY() {return this.y;}
+        	public void setY(int y) {this.y = y;}
+
+	}
+
+
+	public class Circle {
+    	private Point point;
+    	private int radius;
+
+    	public void setPoint (Point point) {this.point = point;}
+
+    	public Point getPoint() { return this.point;}
+
+    	public void setRadius(int radius) {this.radius = radius;}
+
+    	public int getRadius() {return this.radius;}
+
+    	public String toString() {
+        	String msg = "원의 중점 좌표는 (%d, %d)이고 반지름은 %d입니다.";
+        	String result = String.format(msg, this.point.getX(), this.point.getY(), this.radius);
+        	return result;
+    	}
+
+	}
+    
+    
+    
+	 public class Ex03_CircleTest {
+    	public static void main(String[] args) {
+        	Point point = new Point();
+        	point.setX(5);
+        	point.setY(10);
+
+
+        	Circle circle = new Circle();
+        	circle.setPoint(point);
+        	circle.setRadius(7);
+
+
+        	System.out.println(circle.toString());
+
+    	}
+	}
+
+##  < Override, 객체 형변환 >

@@ -1,0 +1,101 @@
+public class Board {
+    private int num;
+    private String subject;
+    private String content;
+    private String writer;
+
+    public Board(int num, String subject, String content, String writer) {
+        this.num = num;
+        this.subject = subject;
+        this.content = content;
+        this.writer = writer;
+    }
+}
+
+    public int getNum() {
+        return this.num;
+    }
+
+    public void setNum(int num) {
+        this.num = num;
+    }
+
+    public String getSubject() {
+        return this.subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
+    public String getContent() {
+        return this.content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getWriter() {
+        return this.writer;
+    }
+
+    public void setWriter(String writer) {
+        this.writer = writer;
+    }
+
+
+
+
+
+public class Ex01_CalcTest {
+    public static void main(String[] args) {
+        // 부모클래스에 대한 객체는 자신에게 정의된 기능만을 사용할 수 있다.
+        CalcParent parent = new CalcParent();
+        System.out.println(parent.plus(100,50));
+        System.out.println(parent.minus(100, 50));
+
+        System.out.println("--------------");
+
+
+        // 자식 클래스에 대한 객체는 부모에게 물려받은 기능과
+        // 자신이 새롭게 정의한 기능을 모두 사용할 수 있다.
+        CalcChild child = new CalcChild();
+        System.out.println(child.plus(200, 100));
+        System.out.println(child.minus(200, 100));
+        System.out.println(child.times(200, 100));
+        System.out.println(child.divide(200, 100));
+
+    }
+}
+
+
+
+
+public class CalcParent {
+    public int plus (int x , int y){
+        return x + y;
+    }
+
+    public int minus(int x, int y) {
+        return x - y;
+    }
+}
+
+
+public class CalcChild {
+    public int times (int x, int y){
+        return x * y;
+    
+    }
+
+    public int divide(int x, int y) {
+        int result = 0;
+        if ( y != 0) {
+            result = x / y;
+        }
+        return result;
+    }
+    
+}
+
